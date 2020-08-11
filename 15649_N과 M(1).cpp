@@ -1,39 +1,49 @@
 #include<iostream>
-#include<vector>
-#include<algorithm>
 
 using namespace std;
 
+int n, m;
+int visited[9] = { 0 };
+int result[8];
+
+
+void dfs(int cnt)
+{
+	int i, j;
+
+	if (cnt == m)
+	{
+		//종료조건
+		for (i = 1; i <= m; i++)
+		{
+			cout << result[i] << " ";
+;		}
+		cout << "\n";
+		return;
+	}
+
+	for(i = 1; i <= n; i++)
+	{
+		if (visited[i] == 0)
+		{
+			visited[i] = 1;
+			cnt++;
+
+			result[cnt] = i;
+
+			dfs(cnt);
+
+			cnt--;
+			visited[i] = 0;
+		}
+	}
+}
 
 int main()
 {
-
-	int n, m;
-
 	cin >> n >> m;
 
-	vector<int> coord(n,0);
-
-	for (int i = 0; i < m; i++)
-	{
-		coord[n - 1 - i] = 1;
-	}
-
-	do {
-		for (int i = 0; i < n; i++)
-		{
-			if (coord[i] == 1)
-			{
-				cout << i + 1 << " ";
-			}
-		}
-		printf("\n");
-	} while (next_permutation(coord.begin(), coord.end()));
-
-
+	dfs(0);
 
 	return 0;
-
 }
-//아 이게 순열문젠데 조합이라고 생각하고 풀었네...
-
