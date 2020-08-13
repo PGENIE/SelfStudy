@@ -24,8 +24,7 @@ void dfs(int cnt)
 
 	for(i = 1; i <= n; i++)
 	{
-		if (visited[i] == 0)
-		{
+
 			visited[i] = 1;
 			cnt++;
 
@@ -35,7 +34,6 @@ void dfs(int cnt)
 
 			cnt--;
 			visited[i] = 0;
-		}
 	}
 }
 
