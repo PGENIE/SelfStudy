@@ -1,69 +1,54 @@
 #include<iostream>
 #include<vector>
-#include<algorithm>
 
 using namespace std;
 
 int departure, arrival;
-int now, dist, last, cnt;
-vector<int> result;
+int now;
+int cnt = 0; 
 
-void find(int cnt)
+int result = 2100000000;
+
+void dfs(int now, int lastDistance)
 {
-	if (last - now == 0)
+	if (now == arrival && lastDistance == 1)//종료조건
 	{
-		result.push_back(cnt);
+		if (cnt < result)
+			result = cnt;
 		return;
 	}
-
-	if (now > last)
+	if (now > arrival)
 		return;
 
-	
-	//find 나오고 다음 for문 돌았을 때, 이 때의 now가 나와야하는데...
 	for (int i = -1; i < 2; i++)
-	{ 
-		int tmpdist = dist;
-		tmpdist += i;
-		if (tmpdist != 0) //0만큼의거리 의미없음
-		{
-			dist = tmpdist;
-			now += dist;
-			find(cnt + 1);
-			now -= dist;
+	{
+		if (lastDistance + i <= 0) //0이하이면 움직이는 의미가 없으므로
+			continue;
 
-		}
+		cnt++; //움직인다.
+		dfs(now + lastDistance + i, lastDistance+i);
+		cnt--;
 	}
-	
+
 }
 int main()
 {
 	int testCase;
-	int i, j;
-
 	cin >> testCase;
-	
-	
-	for (i = 0; i < testCase; i++)
+
+
+	for (int i = 0; i < testCase; i++)
 	{
 		cin >> departure >> arrival;
 
-		now = 1; //현위치
-		dist = 1; //직전이동거리
+		now = departure;
+		int lastDistance = 0;
+
+		dfs(now, lastDistance);
 		
-		last = arrival - 1; //마지막 위치 직전
-
-		cnt = 2; //첫 이동과 마지막이동은 이미 카운트
-
-		find(cnt);
-
-		sort(result.begin(), result.end());
-		cout << result[0];
-		result.clear();
+		cout << result << "\n";
+		result = 2100000000;
 	}
-	
-
-
 
 	return 0;
 }
