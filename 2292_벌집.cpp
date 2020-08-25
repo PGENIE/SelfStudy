@@ -1,49 +1,38 @@
 #include<iostream>
+#include<math.h>
 
 using namespace std;
 
 int main()
 {
-	int a;
-
-	cin >> a;
-
-	//1
-	//2~7
-	//8~19
-	//20
-	//38
-
-	/*
-	a1 = 1;
-	a2 = 2;
-	an+1= an + 6(n-1)
-	*/
+	int n;
 	int cnt = 1;
-	int start = 2;
 
+	cin >> n;
+
+	int i = 1;
+	int now = 1;
 	while (1)
 	{
-		if (a == 1)
+		if (n == 1)
 		{
-			cout << '0';
-			return 0;
+			cout << cnt;
+			break;
 		}
 
-		cnt++;
-		start = start + (6 * cnt) - 6;
-
-		if (a < start)
+		if (now >= n)
 		{
-			cout << cnt - 1;
+			cout << cnt;
 			break;
 		}
 
 
+		now += (6 * i);
+		i++;
+		cnt++;
+
 	}
 
-
-
 	return 0;
-
 }
+
