@@ -2,54 +2,33 @@
 
 using namespace std;
 
-long long combi(int doubleZero, int one)
+long long tile[1000001] = { 0 }; //dp를 하기위해서는 저장하기 위한 장소를 만들어놔야한다! 입력값을 잘 봐두면 좋을듯! 백만까지나 만들어두 메모리제한 256MB에 안걸림. 오히려 재귀로 계속 들어가면 메모리초과될 확률 ++;
+
+long long dp(int n)
 {
-	int up = 1;
-	int down = 1;
-	int till;
+	//DP포인트 1. 초기 RETURN값 설정
+	if (n == 1)
+		return 1;
+	if (n == 2)
+		return 2;
 
-	doubleZero < one ? till = doubleZero : till = one;
+	//DP포인트 2. 있는 값이라면 활용
+	if (tile[n] != 0) 
+		return tile[n];
 
-	for (int i = 0; i < till; i++)
-	{
-		up *= doubleZero + one - i;
-		down *= till - i;
-	}
+	//DP포인트 3. 없는 값이라면 재귀로 돌려주기. 이전 값들 활용될때까지.
+	tile[n] = (dp(n - 1) + dp(n - 2))%15746;
+	return tile[n];
 
-	return up / down;
-	
 }
 int main()
 {
-	//2개짜리가 몇 개 있는지 확인해야함.
 	int n;
-
 	cin >> n;
 
-	//n을 보고, 2를 넣을 수 있는 최대치만큼 넣고 1은 쪼끔만 -> 2 한개 줄고 1 2개 늘리고 ... 이런식으로. 
-	//배열은 자리배치하기로 하면 될듯. 1이 3개 2가 5개라 치면 8C3이네.
+	//n번째의 입장: n-1번째에서 1을 넣을 수 있는 경우 + n-2번째에서 00을 넣을 수 있는 경우
 
-	long long sum = 0;
-	int doubleZero = n / 2; //가질수있는만큼 최대로 가짐.
-	int one;
-
-	if (n % 2 == 0)
-		one = 0;
-	else
-		one = 1;
-
-	while (1)
-	{
-		if (doubleZero == 0)
-			break;
-
-		sum += combi(doubleZero,one);
-		one += 2;
-		doubleZero -= 1;
-	}
-	sum += 1; //doubleZero == 0인 경우의 수
-
-	cout << sum % 15746;
+	cout << dp(n);
 
 	return 0;
 
