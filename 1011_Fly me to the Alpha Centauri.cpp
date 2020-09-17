@@ -1,55 +1,55 @@
 #include<iostream>
-#include<vector>
+#include<math.h>
 
 using namespace std;
 
-int departure, arrival;
-int now;
-int cnt = 0; 
-
-int result = 2100000000;
-
-void dfs(int now, int lastDistance)
-{
-	if (now == arrival && lastDistance == 1)//종료조건
-	{
-		if (cnt < result)
-			result = cnt;
-		return;
-	}
-	if (now > arrival)
-		return;
-
-	for (int i = -1; i < 2; i++)
-	{
-		if (lastDistance + i <= 0) //0이하이면 움직이는 의미가 없으므로
-			continue;
-
-		cnt++; //움직인다.
-		dfs(now + lastDistance + i, lastDistance+i);
-		cnt--;
-	}
-
-}
 int main()
 {
 	int testCase;
+	int departure, arrival;
+	int i, j;
+	int distance;
+
 	cin >> testCase;
 
-
-	for (int i = 0; i < testCase; i++)
+	for (i = 0; i < testCase; i++)
 	{
-		cin >> departure >> arrival;
+		cin >> departure;
+		cin >> arrival;
+		distance = arrival - departure;
 
-		now = departure;
-		int lastDistance = 0;
+		//가장 가까운, 작은 제곱수를 찾는다.
+		int find = 0;
 
-		dfs(now, lastDistance);
+		while (1)
+		{
+			if (distance - pow(find, 2) < 0)
+			{
+				find--;
+				break;
+			}
+			if (distance - pow(find, 2) == 0)
+			{
+				break;
+			}
+			find++;
+		}
+		//find가 가장 가까운 작은 제곱수.
 		
-		cout << result << "\n";
-		result = 2100000000;
+		int findnow = 2 * find - 1; //find까지 왔을 때 최소 수
+		int powfind = pow(find, 2);
+		if (powfind == distance)
+		{
+			cout << findnow << "\n";
+			continue;
+		}
+
+		if ((distance - powfind) % find == 0)
+			cout << findnow + ((distance - powfind) / find) << "\n";
+		else
+			cout << findnow + ((distance - powfind) / find) +1<< "\n";
+
 	}
 
 	return 0;
 }
-
