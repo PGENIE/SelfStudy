@@ -1,41 +1,34 @@
 #include<iostream>
-#include<vector>
 
 using namespace std;
 
+int n, k;
+
 int main()
 {
-	int n, k;
-	int i, j;
 	int arr[10];
 
+	int i, j;
 	cin >> n >> k;
 
-	for (i = 0; i < n; i++)
+	for (i = 0 ; i < n ; i++)
 	{
 		cin >> arr[i];
 	}
+	
+	int index = n - 1;
 	int cnt = 0;
-
-	int a = k;
-	while(1)
+	while (1)
 	{
-		if (k == 0)
+		if (index < 0)
 			break;
 
-		for (i = 0; i < n; i++)
+		if (k >= arr[index])
 		{
-			if (k - arr[i] < 0)
-			{
-				i--;
-				break;
-			}
-			if (k - arr[i] == 0)
-				break;
+			cnt += (k / arr[index]);
+			k -= ((k / arr[index]) * arr[index]);
 		}
-			//i가 가장 큰 애
-			cnt += k / arr[i];
-			k %= arr[i];
+		index--;
 	}
 
 	cout << cnt;
